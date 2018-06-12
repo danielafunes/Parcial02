@@ -136,7 +136,7 @@ public class Jugador {
             this.centroDeMando.setRecurso_tipo_2(this.centroDeMando.getRecurso_tipo_2() - costo2);
             this.centroDeMando.setRecurso_tipo_3(this.centroDeMando.getRecurso_tipo_3() - costo3);
             
-            this.listarEdificaciones(jugador);
+            this.listarEdificaciones();
         } else {
             System.out.println("***********************************************");
             System.out.println("Has agotado todos tus recursos.");
@@ -144,8 +144,18 @@ public class Jugador {
         }
        
     }
+
+    public HashMap<String, Object[]> getEdificaciones() {
+        return edificaciones;
+    }
+
+    public void setEdificaciones(HashMap<String, Object[]> edificaciones) {
+        this.edificaciones = edificaciones;
+    }
     
-    private void listarEdificaciones (Jugador jugador) {
+    
+    
+    public void listarEdificaciones () {
         Edificacion edificacion = null;
         String key = null;
          
@@ -159,10 +169,9 @@ public class Jugador {
            System.out.println("Nombre de edificación: " + edificacion.getEdificacion());
            System.out.println("Número de construcciones: " + (int) data[0]);
            System.out.println("");
-           
         }
         
-        System.out.println("Recursos disponibles (Jugador: " + jugador.getNombre() + "):");
+        System.out.println("Recursos disponibles (Jugador: " + this.getNombre() + "):");
         System.out.println("Recurso 1: " + this.centroDeMando.getRecurso_tipo_1());
         System.out.println("Recurso 2: " + this.centroDeMando.getRecurso_tipo_2());
         System.out.println("Recurso 3: " + this.centroDeMando.getRecurso_tipo_3());

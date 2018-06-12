@@ -66,6 +66,12 @@ public class Parcial2 {
                     Parcial2.crearVihuculo(player % 2);
                     break;
                 case 3:
+                    Parcial2.player[player % 2].getCentroDeMando().mejorarEdificacion();
+                    break;
+                case 4:
+                    Parcial2.player[player % 2].listarEdificaciones();
+                    break;
+                case 5:
                     turno = !turno;
                     player ++;
                     count ++;
@@ -186,7 +192,8 @@ public class Parcial2 {
        System.out.println("1) Crear una edificación.");
        System.out.println("2) Crear un vehiculo.");
        System.out.println("3) Mejorar nivel de centro de mando.");
-       System.out.println("4) Salir.");
+       System.out.println("4) Generar recursos.");
+       System.out.println("5) Salir.");
         
        Scanner scanner = new Scanner(System.in);
        System.out.print("Ingrese opcion: ");
