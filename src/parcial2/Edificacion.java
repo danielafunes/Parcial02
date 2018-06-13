@@ -261,21 +261,18 @@ public class Edificacion {
                 this.nivel ++;
                 break;
             case 3:
-                jugador.getCentroDeMando().setRecurso_1((int) Math.floor((jugador.getCentroDeMando().getRecurso_1() * 0.30) + jugador.getCentroDeMando().getRecurso_1()));
-                jugador.getCentroDeMando().setRecurso_2((int) Math.floor((jugador.getCentroDeMando().getRecurso_2() * 0.30) + jugador.getCentroDeMando().getRecurso_2()));
-                jugador.getCentroDeMando().setRecurso_3((int) Math.floor((jugador.getCentroDeMando().getRecurso_3() * 0.30) + jugador.getCentroDeMando().getRecurso_3()));
+                jugador.getCentroDeMando().setRecurso_1((int) Math.floor((jugador.getCentroDeMando().getRecurso_1() * 0.50) + jugador.getCentroDeMando().getRecurso_1()));
+                jugador.getCentroDeMando().setRecurso_2((int) Math.floor((jugador.getCentroDeMando().getRecurso_2() * 0.50) + jugador.getCentroDeMando().getRecurso_2()));
+                jugador.getCentroDeMando().setRecurso_3((int) Math.floor((jugador.getCentroDeMando().getRecurso_3() * 0.50) + jugador.getCentroDeMando().getRecurso_3()));
                 
-                this.recurso_1 = (int) Math.floor((this.recurso_1 * 0.50) + this.recurso_1);
-                this.recurso_2 = (int) Math.floor((this.recurso_2 * 0.50) + this.recurso_2);
-                this.recurso_3 = (int) Math.floor((this.recurso_3 * 0.50) + this.recurso_3);
                 
-                costoMejora = (int) Math.floor(0.25 * (this.recurso_1 + this.recurso_2 + this.recurso_3));
+                costoMejora = (int) Math.floor(0.25 * (jugador.getCentroDeMando().getRecurso_1() + jugador.getCentroDeMando().getRecurso_2() + jugador.getCentroDeMando().getRecurso_3()));
                 costoMejora = costoMejora / 3;
                 
-                if ((this.recurso_tipo_1 - costoMejora) >= 0 && (this.recurso_tipo_2 - costoMejora) >= 0 && (this.recurso_tipo_2 - costoMejora) >= 0) {
-                    this.recurso_tipo_1 = this.recurso_tipo_1 - costoMejora;
-                    this.recurso_tipo_2 = this.recurso_tipo_2 - costoMejora;
-                    this.recurso_tipo_3 = this.recurso_tipo_3 - costoMejora;
+                if ((jugador.getCentroDeMando().getRecurso_tipo_1() - costoMejora) >= 0 && (jugador.getCentroDeMando().getRecurso_tipo_2() - costoMejora) >= 0 && (jugador.getCentroDeMando().getRecurso_tipo_3() - costoMejora) >= 0) {
+                    jugador.getCentroDeMando().setRecurso_tipo_1(jugador.getCentroDeMando().getRecurso_tipo_1()  - costoMejora);
+                    jugador.getCentroDeMando().setRecurso_tipo_2(jugador.getCentroDeMando().getRecurso_tipo_2()  - costoMejora);
+                    jugador.getCentroDeMando().setRecurso_tipo_3(jugador.getCentroDeMando().getRecurso_tipo_3()  - costoMejora);
                 } else {
                     System.out.println("No posees suficientes recusos.");
                 }
