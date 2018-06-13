@@ -12,8 +12,9 @@ public class Vehiculos {
    private Edificacion edificacion;
    
    private String nombre;
+   private int tiempo;
    
-   public Vehiculos (String nombre, int vida, int costo1, int costo2, int costo3, int ataque, Edificacion edificacion) {
+   public Vehiculos (String nombre, int vida, int costo1, int costo2, int costo3, int ataque, Edificacion edificacion, int tiempo) {
        this.vida = vida;
        this.nombre = nombre;
        
@@ -21,6 +22,7 @@ public class Vehiculos {
        this.costo2 = costo2;
        this.costo3 = costo3;
        
+       this.tiempo = tiempo;
        this.ataque = ataque;
        this.edificacion = edificacion;
    }

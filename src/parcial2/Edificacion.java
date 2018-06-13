@@ -12,9 +12,11 @@ public class Edificacion {
         * 1 --> (Almacenamiento de recursos tipo 1)
         * 2 --> (Alacenamiento de recursos tipo 2)
         * 3 --> (Alacenamiento de recursos tipo 3)
-        * 4 --> (Entrenamiento de razas o milicias) 
-        * 5 --> (Construccion de vehículos)
-     */
+        * 4 --> (Entrenamiento milicias (escuadron ó especialistas)) 
+        * 5 --> (Construccion de vehículos (aereo o terrestre))
+    */
+    
+    
     private boolean flag; // Es centro de mando ?
     private String edificacion;
 
@@ -31,13 +33,19 @@ public class Edificacion {
     private int costo1; // costo tipo 1
     private int costo2; // costo tipo 2
     private int costo3; // costo tipo 3
+    
+    
+    private int tiempo; // representa el tiempo de construcccion 
 
-    public Edificacion(String edificacion, int vida, boolean flag, int tipo, int costo1, int costo2, int costo3) {
+    public Edificacion(String edificacion, int vida, boolean flag, int tipo, int costo1, int costo2, int costo3, int tiempo) {
         this.vida = vida;
         this.flag = flag;
         this.edificacion = edificacion;
         this.nivel = 1;
-
+        
+        this.tipo = tipo;
+        this.tiempo = tiempo;
+        
         switch (tipo) {
             case 0:
                 this.costo1 = 0;
@@ -60,7 +68,6 @@ public class Edificacion {
                 this.costo3 = costo3;
                 break;
         }
-
     }
 
     public String getEdificacion() {
@@ -147,7 +154,33 @@ public class Edificacion {
         this.recurso_tipo_3 = recurso_tipo_3;
     }
 
-    public void generarRecursos() {
+    public int getRecurso_1() {
+        return recurso_1;
+    }
+
+    public void setRecurso_1(int recurso_1) {
+        this.recurso_1 = recurso_1;
+    }
+
+    public int getRecurso_2() {
+        return recurso_2;
+    }
+
+    public void setRecurso_2(int recurso_2) {
+        this.recurso_2 = recurso_2;
+    }
+
+    public int getRecurso_3() {
+        return recurso_3;
+    }
+
+    public void setRecurso_3(int recurso_3) {
+        this.recurso_3 = recurso_3;
+    }
+
+    
+    
+    public void generarRecursos(Jugador jugador) {
         switch (tipo) {
             case 0:
                 this.recurso_tipo_1 = 10000;
@@ -155,22 +188,31 @@ public class Edificacion {
                 this.recurso_tipo_3 = 3000; // Almacenamiento máximo
                 break;
             case 1:
-                if (this.recurso_tipo_1 <= this.recurso_1) {
-                    this.recurso_tipo_1 = (int) Math.floor((0.10 * this.recurso_tipo_1) + this.recurso_tipo_1); // Almacenamiento máximo
+                if (this.recurso_tipo_1 <= jugador.getCentroDeMando().getRecurso_1()) {
+                    this.recurso_tipo_1 = (int) Math.floor((0.10 * this.recurso_1) + this.recurso_1); // Almacenamiento máximo
+                    System.out.println("Se ha incrementa el recurso tipo 1: " + this.recurso_tipo_1);
+                } else {
+                    System.out.println("Ya no puedes generar más recursos de tipo 1");
                 }
                 break;
             case 2:
-                if (this.recurso_tipo_2 <= this.recurso_2) {
-                    this.recurso_tipo_2 = (int) Math.floor((0.30 * this.recurso_tipo_2) + this.recurso_tipo_2); // Almacenamiento máximo
+                if (this.recurso_tipo_2 <= jugador.getCentroDeMando().getRecurso_2()) {
+                    this.recurso_tipo_2 = (int) Math.floor((0.30 * this.recurso_2) + this.recurso_2); // Almacenamiento máximo
+                    System.out.println("Se ha incrementa el recurso tipo 2: " + this.recurso_2);
+                } else {
+                    System.out.println("Ya no puedes generar más recursos de tipo 2");
                 }
                 break;
             case 3:
-                if (this.recurso_tipo_3 <= this.recurso_3) {
-                    this.recurso_tipo_3 = (int) Math.floor((0.30 * this.recurso_tipo_3) + this.recurso_tipo_3); // Almacenamiento máximo
+                if (this.recurso_tipo_3 <= jugador.getCentroDeMando().getRecurso_3()) {
+                    this.recurso_tipo_3 = (int) Math.floor((0.30 * this.recurso_3) + this.recurso_3); // Almacenamiento máximo
+                    System.out.println("Se ha incrementa el recurso tipo 3: " + this.recurso_3);
+                } else {
+                    System.out.println("Ya no puedes generar más recursos de tipo 3");
                 }
                 break;
             case 4:
-
+                  
                 break;
             case 5:
                 
@@ -178,22 +220,22 @@ public class Edificacion {
         }
     }
 
-    public void mejorarEdificacion() {
+    public void mejorarEdificacion(Jugador jugador) {
         int costoMejora = 0;
         
         switch (this.nivel) {
             case 1:
-                this.recurso_1 = (int) Math.floor((this.recurso_1 * 0.10) + this.recurso_1);
-                this.recurso_2 = (int) Math.floor((this.recurso_2 * 0.10) + this.recurso_2);
-                this.recurso_3 = (int) Math.floor((this.recurso_3 * 0.10) + this.recurso_3);
+                jugador.getCentroDeMando().setRecurso_1((int) Math.floor((jugador.getCentroDeMando().getRecurso_1() * 0.10) + jugador.getCentroDeMando().getRecurso_1()));
+                jugador.getCentroDeMando().setRecurso_2((int) Math.floor((jugador.getCentroDeMando().getRecurso_2() * 0.10) + jugador.getCentroDeMando().getRecurso_2()));
+                jugador.getCentroDeMando().setRecurso_3((int) Math.floor((jugador.getCentroDeMando().getRecurso_3() * 0.10) + jugador.getCentroDeMando().getRecurso_3()));
                 
-                costoMejora = (int) Math.floor(0.25 * (this.recurso_1 + this.recurso_2 + this.recurso_3));
+                costoMejora = (int) Math.floor(0.25 * (jugador.getCentroDeMando().getRecurso_1() + jugador.getCentroDeMando().getRecurso_2() + jugador.getCentroDeMando().getRecurso_3()));
                 costoMejora = costoMejora / 3;
                 
-                if ((this.recurso_tipo_1 - costoMejora) >= 0 && (this.recurso_tipo_2 - costoMejora) >= 0 && (this.recurso_tipo_2 - costoMejora) >= 0) {
-                    this.recurso_tipo_1 = this.recurso_tipo_1 - costoMejora;
-                    this.recurso_tipo_2 = this.recurso_tipo_2 - costoMejora;
-                    this.recurso_tipo_3 = this.recurso_tipo_3 - costoMejora;
+                if ((jugador.getCentroDeMando().getRecurso_tipo_1() - costoMejora) >= 0 && (jugador.getCentroDeMando().getRecurso_tipo_2() - costoMejora) >= 0 && (jugador.getCentroDeMando().getRecurso_tipo_3() - costoMejora) >= 0) {
+                    jugador.getCentroDeMando().setRecurso_tipo_1(jugador.getCentroDeMando().getRecurso_tipo_1()  - costoMejora);
+                    jugador.getCentroDeMando().setRecurso_tipo_2(jugador.getCentroDeMando().getRecurso_tipo_2()  - costoMejora);
+                    jugador.getCentroDeMando().setRecurso_tipo_3(jugador.getCentroDeMando().getRecurso_tipo_3()  - costoMejora);
                 } else {
                     System.out.println("No posees suficientes recusos.");
                 }
@@ -201,17 +243,17 @@ public class Edificacion {
                 this.nivel ++;
                 break;
             case 2:
-                this.recurso_1 = (int) Math.floor((this.recurso_1 * 0.30) + this.recurso_1);
-                this.recurso_2 = (int) Math.floor((this.recurso_2 * 0.30) + this.recurso_2);
-                this.recurso_3 = (int) Math.floor((this.recurso_3 * 0.30) + this.recurso_3);
-                
-                costoMejora = (int) Math.floor(0.25 * (this.recurso_1 + this.recurso_2 + this.recurso_3));
+                jugador.getCentroDeMando().setRecurso_1((int) Math.floor((jugador.getCentroDeMando().getRecurso_1() * 0.30) + jugador.getCentroDeMando().getRecurso_1()));
+                jugador.getCentroDeMando().setRecurso_2((int) Math.floor((jugador.getCentroDeMando().getRecurso_2() * 0.30) + jugador.getCentroDeMando().getRecurso_2()));
+                jugador.getCentroDeMando().setRecurso_3((int) Math.floor((jugador.getCentroDeMando().getRecurso_3() * 0.30) + jugador.getCentroDeMando().getRecurso_3()));
+                            
+                costoMejora = (int) Math.floor(0.25 * (jugador.getCentroDeMando().getRecurso_1() + jugador.getCentroDeMando().getRecurso_2() + jugador.getCentroDeMando().getRecurso_3()));
                 costoMejora = costoMejora / 3;
-                
-                if ((this.recurso_tipo_1 - costoMejora) >= 0 && (this.recurso_tipo_2 - costoMejora) >= 0 && (this.recurso_tipo_2 - costoMejora) >= 0) {
-                    this.recurso_tipo_1 = this.recurso_tipo_1 - costoMejora;
-                    this.recurso_tipo_2 = this.recurso_tipo_2 - costoMejora;
-                    this.recurso_tipo_3 = this.recurso_tipo_3 - costoMejora;
+                   
+                if ((jugador.getCentroDeMando().getRecurso_tipo_1() - costoMejora) >= 0 && (jugador.getCentroDeMando().getRecurso_tipo_2() - costoMejora) >= 0 && (jugador.getCentroDeMando().getRecurso_tipo_3() - costoMejora) >= 0) {
+                    jugador.getCentroDeMando().setRecurso_tipo_1(jugador.getCentroDeMando().getRecurso_tipo_1()  - costoMejora);
+                    jugador.getCentroDeMando().setRecurso_tipo_2(jugador.getCentroDeMando().getRecurso_tipo_2()  - costoMejora);
+                    jugador.getCentroDeMando().setRecurso_tipo_3(jugador.getCentroDeMando().getRecurso_tipo_3()  - costoMejora);
                 } else {
                     System.out.println("No posees suficientes recusos.");
                 }
@@ -219,6 +261,10 @@ public class Edificacion {
                 this.nivel ++;
                 break;
             case 3:
+                jugador.getCentroDeMando().setRecurso_1((int) Math.floor((jugador.getCentroDeMando().getRecurso_1() * 0.30) + jugador.getCentroDeMando().getRecurso_1()));
+                jugador.getCentroDeMando().setRecurso_2((int) Math.floor((jugador.getCentroDeMando().getRecurso_2() * 0.30) + jugador.getCentroDeMando().getRecurso_2()));
+                jugador.getCentroDeMando().setRecurso_3((int) Math.floor((jugador.getCentroDeMando().getRecurso_3() * 0.30) + jugador.getCentroDeMando().getRecurso_3()));
+                
                 this.recurso_1 = (int) Math.floor((this.recurso_1 * 0.50) + this.recurso_1);
                 this.recurso_2 = (int) Math.floor((this.recurso_2 * 0.50) + this.recurso_2);
                 this.recurso_3 = (int) Math.floor((this.recurso_3 * 0.50) + this.recurso_3);

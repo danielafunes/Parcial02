@@ -15,9 +15,10 @@ public class Jugador {
     private Raza raza;
     private HashMap<String, Object[]> edificaciones = new HashMap<>();
     private HashMap<String, Object[]> vehiculos = new HashMap<>();
+    private HashMap<String, Object[]> milicia = new HashMap<>();
     
     public Jugador () {
-        this.centroDeMando = new Edificacion("Centro de mando", 20000, true, 0, 10000, 5000, 3000); 
+        this.centroDeMando = new Edificacion("Centro de mando", 20000, true, 0, 10000, 5000, 3000, 0); 
     }
     
     public Jugador (String nombre) {
@@ -73,8 +74,7 @@ public class Jugador {
             System.out.println("***********************************************");
             System.out.println("Has agotado todos tus recursos.");
             System.out.println("***********************************************");
-        }
-       
+        } 
     }
     
     private void listarVehiculos (Jugador jugador) {

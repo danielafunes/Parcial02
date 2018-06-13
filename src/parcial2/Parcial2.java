@@ -1,5 +1,7 @@
 package parcial2;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Parcial2 {
@@ -7,6 +9,8 @@ public class Parcial2 {
     private static Raza[] razas;
     // Creación de objeto Jugador
     private static Jugador[] player;
+    // Creacion de objeto milicia
+    private static Milicia[] milicia;
     // Creación de objeto edificación 
     private static Edificacion[] edificacion;
     // Creación de objeto Vehiculo
@@ -19,9 +23,9 @@ public class Parcial2 {
        player = new Jugador[2];
        
        edificacion = new Edificacion[3];
-       edificacion[0] = new Edificacion("Dakar Kindom", 10000, false, 1, 5000, 2500, 1500);
-       edificacion[1] = new Edificacion("Imperio Cobalt", 10000, false, 2, 5000, 2500, 1500);
-       edificacion[2] = new Edificacion("La taberna de bob", 10000, false, 3, 5000, 2500, 1500);
+       edificacion[0] = new Edificacion("Dakar Kindom", 10000, false, 1, 5000, 2500, 1500, 2);
+       edificacion[1] = new Edificacion("Imperio Cobalt", 10000, false, 2, 5000, 2500, 1500, 1);
+       edificacion[2] = new Edificacion("La taberna de bob", 10000, false, 3, 5000, 2500, 1500, 2);
        
        razas = new Raza[3];
        razas[0] = new Raza("Elfos", 0, 0);
@@ -29,9 +33,14 @@ public class Parcial2 {
        razas[2] = new Raza("Duendes", 5, 2);
        
        vehiculos = new Vehiculos[3];
-       vehiculos[0] = new Vehiculos("Catapulta", 5000, 5000, 2500, 1500, 1500, edificacion[1]);
-       vehiculos[1] = new Vehiculos("Tanque", 5000, 5000, 2500, 1500, 2500, edificacion[1]);
-       vehiculos[2] = new Vehiculos("Vendetta", 5000, 5000, 2500, 1500, 1500, edificacion[1]);
+       vehiculos[0] = new Vehiculos("Catapulta", 5000, 5000, 2500, 1500, 1500, edificacion[1], 1);
+       vehiculos[1] = new Vehiculos("Tanque", 5000, 5000, 2500, 1500, 2500, edificacion[1], 2);
+       vehiculos[2] = new Vehiculos("Vendetta", 5000, 5000, 2500, 1500, 1500, edificacion[1], 3);
+       
+       milicia = new Milicia[3];
+       milicia[0] = new Milicia("Donkey", 500, 500, 500, 1000, 1);
+       milicia[0] = new Milicia("Barbaros", 100, 100, 100, 500, 0);
+       milicia[0] = new Milicia("Unos", 100, 100, 100, 500, 0);
        
        for (int i = 0; i < player.length; i++) {
            player[i] = new Jugador();
@@ -42,6 +51,34 @@ public class Parcial2 {
        
        int aleatorio = (int) (Math.random() * 2) + 1;
        init(aleatorio);
+    }
+    
+    private static void verificarTiempo (int jugador) {
+        
+    }
+    
+    private static void generarRecursos (int jugador) {
+        Scanner scanner = new Scanner(System.in);
+        Edificacion ed = null; int opcion = 0, count = 1;
+        
+        HashMap<String, Object[]> edificaciones = player[jugador].getEdificaciones();
+        String[] keys = new String[edificaciones.size()];
+        
+        
+        System.out.println("***********************************");
+        for (String key : edificaciones.keySet()) {
+            Object[] data = edificaciones.get(key);
+            System.out.println(count + ") " + key);
+            keys[count - 1] =  key;
+            count ++;
+        }
+        
+        System.out.println("***********************************");
+        System.out.print("Seleccione una opccion: ");
+        opcion = scanner.nextInt();
+        
+        ed = (Edificacion) edificaciones.get(keys[opcion - 1])[1];
+        ed.generarRecursos(player[jugador]);
     }
     
     private static void init (int player) {
@@ -66,20 +103,19 @@ public class Parcial2 {
                     Parcial2.crearVihuculo(player % 2);
                     break;
                 case 3:
-                    Parcial2.player[player % 2].getCentroDeMando().mejorarEdificacion();
+                    Parcial2.player[player % 2].getCentroDeMando().mejorarEdificacion(Parcial2.player[player % 2]);
                     break;
                 case 4:
-                    Parcial2.player[player % 2].listarEdificaciones();
+                   Parcial2.generarRecursos(player % 2);
                     break;
                 case 5:
+                    // Explorar
+                    break;
+                case 6:
                     turno = !turno;
                     player ++;
                     count ++;
                     break;
-            }
-            
-            if (count >= 2) {
-                flag = false;
             }
         }
     }
@@ -193,7 +229,8 @@ public class Parcial2 {
        System.out.println("2) Crear un vehiculo.");
        System.out.println("3) Mejorar nivel de centro de mando.");
        System.out.println("4) Generar recursos.");
-       System.out.println("5) Salir.");
+       System.out.println("5) Explorar.");
+       System.out.println("6) Salir.");
         
        Scanner scanner = new Scanner(System.in);
        System.out.print("Ingrese opcion: ");
